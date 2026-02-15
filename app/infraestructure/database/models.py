@@ -12,8 +12,8 @@ class Client(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     wa_id: Mapped[str] = mapped_column(String(20), unique=True, index=True)#id from Whatsapp
     name: Mapped[str | None] = mapped_column(String(100))
-    register_date: Mapped[datetime] = mapped_column(server_default=func.now())
-    last_message: Mapped[datetime | None] = mapped_column(onupdate=func.now())
+    register_date: Mapped[datetime] = mapped_column(server_default=func.now()) #time created
+    last_message: Mapped[datetime | None] = mapped_column(onupdate=func.now())#time updated
     status : Mapped[str] = mapped_column(default="begin")
 
     
