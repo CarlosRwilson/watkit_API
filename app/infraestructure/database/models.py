@@ -21,7 +21,7 @@ class Client(Base):
     #foregein key to connect to enterprise
     enterprise_id: Mapped[int] = mapped_column(ForeignKey("enterprises.id"))
     enterprise: Mapped["Enterprise"] = relationship(back_populates="clients")
-
+    messages: Mapped[list["Message"]] = relationship(back_populates="clients")
 
 class Enterprise(Base):
     __tablename__ = "enterprises"
@@ -32,7 +32,7 @@ class Enterprise(Base):
 
     #one enterprise has a lot of clients
     clients: Mapped[list["Client"]] = relationship(back_populates="enterprise")
-
+    products: Mapped[list["Product"]] = relationship(back_populates="enterprise")
 class Product(Base):
     __tablename__ = 'products'
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -44,3 +44,14 @@ class Product(Base):
 
     enterprise_id: Mapped[int] = mapped_column(ForeignKey("enterprises.id"))
     enterprise: Mapped["Enterprise"] = relationship(back_populates="products")
+
+
+class Message(Base):
+    __tablename__ = "messages"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    content: Mapped[str] = mapped_column(Text)
+    is_user: Mapped[bool] = mapped_column(Boolean) #User:True, Bot:False
+    timestamp: Mapped[datetime] = mapped_column(server_default=func.now())
+    client_id: Mapped[int] = mapped_column(ForeignKey("clients.id"))
+    client: Mapped["Client"] = relationship(back_populates="messages")
