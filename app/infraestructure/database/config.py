@@ -7,7 +7,6 @@ engine = create_async_engine(DATABASE_URL, echo=True)#echo=True show queryes on 
 
 SessionLocal = async_sessionmaker(bind=engine, expire_on_commit=False)
 
-#funcion para obtener la sesion dependency injection en fastapi
 async def get_db():
     async with SessionLocal() as session:
         yield session

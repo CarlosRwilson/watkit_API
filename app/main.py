@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.v1.endpoints import clients
+from app.api.v1.endpoints import clients, admin
 from app.infraestructure.database.config import engine
 from app.infraestructure.database.models import Base
 
@@ -11,8 +11,8 @@ async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-# Incluir las rutas
-app.include_router(clients.router, prefix="/api/v1", tags=["clients"])
+# Incluir las rutas para clientes ( logica del bot)
+app.include_router(clients.router, prefix="/api/v1", tags=["Clients"])
 
 @app.get("/")
 def read_root():

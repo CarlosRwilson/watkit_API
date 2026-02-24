@@ -6,14 +6,15 @@ from app.domain.services.message_service import MessageService
 
 router = APIRouter()
 
-@router.post("/validate-client/{wat_id}")
-async def validate_client(wa_id:str, name:str, db:AsyncSession= Depends(get_db)):
-    #instanciamos el repositorio con la sesion de la BD
+@router.post("/validate-client/{wa_id}")
+async def validate_client(wa_id:str, first_name:str | None = None,
+                          last_name:str| None = None, db:AsyncSession= Depends(get_db)):
+    
     repo = ClientRepository(db)
-    #se lo pasamos al servicio(inyeccion de dependencias)
+    
     service = MessageService(repo)
 
     #call business logic
-    result = await service.process_message(wa_id, name, "first register")
+    result = await service.process_messsage(wa_id, first_name, last_name, "first register")
 
     return {"status": "ok", "bot response": result}

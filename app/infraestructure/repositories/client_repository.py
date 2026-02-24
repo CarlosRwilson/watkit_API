@@ -4,7 +4,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.infraestructure.database.models import Client
 
-# se encarga de la logica de acceso y manipulacion de datos para una entidad especifica
 class ClientRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
@@ -12,8 +11,10 @@ class ClientRepository:
         query = select(Client).where(Client.wa_id == wa_id)
         result = await self.session.execute(query)
         return result.scalar_one_or_none()
-    async def create_client(self, wa_id: str, name:str | None = None) -> Client:
-        new_client= Client(wa_id=wa_id, name = name)
+    async def create_client(self, wa_id: str, first_name:str | None = None,
+                            last_name: str | None = None, email:str | None = None) -> Client:
+        new_client= Client(wa_id=wa_id, first_name=first_name,
+                           last_name=last_name, email=email)
         self.session.add(new_client)
         await self.session.commit()
         return new_client
