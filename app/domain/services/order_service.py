@@ -1,20 +1,22 @@
 from app.infraestructure.repositories.order_repository import OrderRepository
 from app.infraestructure.repositories.product_repository import ProductRepository
-
+from app.infraestructure.database.models import OrderStatus, Order
 class OrderService:
     def __init__(self, order_repo: OrderRepository, product_repo : ProductRepository):
         self.order_repo = order_repo
         self.product_repo = product_repo
 
-        async def start_new_order(self, client_id: int ) -> str:
-            order = await self.order_repo.create_order(client_id)
-            return f"Order #{order.id} done!, which product you want to add?"
-        async def add_product_to_order(self, order_id: int, product_id: int, quantity: int = 1) -> int: 
+    async def start_new_order(self, client_id: int ) -> str:
+            order = await self.order_repo.create_order(
+                    client_id=client_id
+                    )
+            return f"Order #{order.id} done!, which product you want to add? (send the ID)"
+    async def add_product_to_order(self, order_id: int, product_id: int, quantity: int = 1) -> str: 
             #product exist?
-            product = await self.product_repo.get_product(product_id)
+            product = await self.product_repo.get_product_by_id(product_id)
 
             if not product:
-                return "invalid product"
+                return "invalid product ID. Please Check the menu"
             
             if product.stock < quantity:
                 return f"we only have {product.stock} units of {product.name}"
@@ -26,4 +28,10 @@ class OrderService:
                 price = product.price
             )
             await self.product_repo.decrease_stock(product.id, quantity)
-            return f"{quantity}: {product.name} in your order"
+            return f"{quantity}x {product.name} in your order"
+    async def get_active_order(self, client_id:int) -> Order | None:
+         return await self.order_repo.get_order_by_status(
+              client_id=client_id,
+              status=OrderStatus.ORDERING
+         )
+    

@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.realpath(os.path.join(os.path.dirname(__file__), ".."
 
 
 
-#objeto de configuracion de alembic
+#config object
 config = context.config
 
 if config.config_file_name is not None:

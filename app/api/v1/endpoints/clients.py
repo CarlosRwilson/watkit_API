@@ -4,6 +4,8 @@ from app.infraestructure.database.config import get_db
 from app.infraestructure.repositories.client_repository import ClientRepository
 from app.domain.services.message_service import MessageService
 
+#The APIrouter class allows to organize and group path operations(routes)
+#into separate, modular files or modules
 router = APIRouter()
 
 @router.post("/validate-client/{wa_id}")
