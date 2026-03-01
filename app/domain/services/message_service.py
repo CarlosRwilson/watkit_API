@@ -40,6 +40,10 @@ class MessageService:
         elif user_text in ['price', 'prices', 'costs']:
             return f"{greeting}We have different prices.\nWrite 'menu' if you want to see the menu"
         
+        elif user_text in ['checkout']:
+            response = await self.order_service.checkout(client.id)
+            return response
+
         elif user_text in ['menu']:
             catalog = await self.product_service.show_catalog()
 
