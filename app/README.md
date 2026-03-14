@@ -1,8 +1,27 @@
-**Message_API**
-Este es un proyecto pensado para automatizar mensajes de whatsapp, implementando un bot de IA, una base de datos que almacene a la empresa y al cliente asociado y que de seguimiento.
+**Watkit**
+This API automates client management, providing automated follow-up triggers and structured data storage for client information.
 
-El proyecto esta en sus fases principales, donde se opto por una infraestructura en capas.Decidido asi por el desarrollador.
+**Tech stack**
+*Framework:* FastAPI(High performance, easy to use).
+*ORM:* SQLAlchemy(SQL database managment).
+*Containerization:* Docker(Ensures consistent environment)
+*Language:*Python 3.9+
 
-La finalidad del proyecto es otorgar una solucion a empresas, donde puedan gestionar sus clientes y retenerlos sin la preocupacion de no contestar a tiempo o a perderlo.
+**Project Architecture**
+The application follows a layered structure to ensure scalability and clean code:
+*Endpoinst(FastAPI):*Handles HTTP requests and routing.
+*Schemas(Pydantic):*Validates client data(name, phone) before processing.
+*Models(SQLAlchemy):* Defines the database table structure.
+*Automation Logic:*Internal services that handle the automated follow-up sequences
 
+**Docker Deployment**
+To spin up the project quickly without manual environment configuration:
+*Build the image:*
+docker build -t watkit-api
+*Run the container:*
+docker run -d -p 8000:8000 watkit-API
+----
+**API Documentation**
+Swagger UI: http://localhost:8000/docs (Test endpoints directly).
 
+ReDoc: http://localhost:8000/redoc (Clean, read-only documentation).

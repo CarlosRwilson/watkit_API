@@ -1,7 +1,7 @@
 from app.infraestructure.repositories.client_repository import ClientRepository
 from app.domain.services.product_service import ProductService
 from app.domain.services.order_service import OrderService
-from app.infraestructure.database.models import OrderStatus
+
 class MessageService:
     def __init__(self, client_repo: ClientRepository, product_service: ProductService, order_service: OrderService):
         self.client_repo = client_repo

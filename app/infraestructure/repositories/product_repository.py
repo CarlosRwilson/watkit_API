@@ -1,5 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy import update
 from app.infraestructure.database.models import Product
 
 class ProductRepository:
@@ -14,7 +15,10 @@ class ProductRepository:
     async def get_available_products(self):
             query = select(Product).where(Product.stock > 0)
             result = await self.session.execute(query)
-            return result.scalars().all()
+            products = result.scalars().all()
+            if not products:
+                  return False
+            return products
         
     async def decrease_stock(self, product_id: int, quantity: int) -> bool:
             #find product
@@ -30,8 +34,28 @@ class ProductRepository:
             self.session.add(product)
             await self.session.commit()
             return True
+    
+    async def increase_stock(self, product_id: int, quantity: int) -> bool:
+        query = select(Product).where(Product.id == product_id)
+        result = await self.session.execute(query)
+        product = result.scalar_one_or_none()
         
+        if not product:
+              return False
+        product.stock += quantity
+        self.session.add(product)
+        await self.session.commit()
+        return True
+    
+    async def increase_atomic_stock(self, product_id: int, quantity: int):
+          query = (
+                update(Product)
+                .where(Product.id == product_id)
+                .values(stock=Product.stock + quantity)
 
+          )
+          await self.session.execute(query)
+          await self.session.commit()
 
         
         

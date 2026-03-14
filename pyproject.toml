@@ -14,7 +14,8 @@ dependencies = [
     "pydantic-settings>=2.1.0",
     "httpx>=0.26.0",
     "python-dotenv>=1.0.1",
-    "alembic>=1.15.0"
+    "alembic>=1.15.0",
+    "python-multipart>=0.0.22"
 ]
 [build-system]
 requires = ["setuptools>=61.0"]

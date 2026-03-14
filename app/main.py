@@ -1,14 +1,15 @@
 from fastapi import FastAPI
 from app.api.v1.endpoints import clients
-from app.infraestructure.database.config import engine
-from app.infraestructure.database.models import Base
+from app.infraestructure.database.config import init_db
 from app.api.v1.endpoints import clients, webhook
+
+
 app = FastAPI(title="WhatsApp Messaging API")
 
 @app.on_event("startup")
 async def startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    await init_db()
+
 
 
 app.include_router(clients.router, prefix="/api/v1", tags=["Clients"])
