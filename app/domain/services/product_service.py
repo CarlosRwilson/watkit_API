@@ -11,6 +11,6 @@ class ProductService:
             catalog_msg = "Here is our menu!\n\n"
             for p in products:
                 catalog_msg += f"{p.name} (${p.price})\n"
-            catalog_msg += "\n to order write the ID product"
+            catalog_msg += "\n to order write *order* "
 
             return catalog_msg

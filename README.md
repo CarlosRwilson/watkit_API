@@ -1,68 +1,107 @@
-**Watkit API**
-This API automates client management by providing automated follow-up triggers and structured data storage for client information. It is designed with a clean, layered architecture to ensure maintainability and scalability.
 
-*Tech Stack*
-Framework: FastAPI (High performance, easy to use, auto-generated docs).
 
-ORM: SQLAlchemy (Robust SQL database management).
+# Watkit API
 
-Migrations: Alembic (Automated database schema management).
 
-Database: PostgreSQL (Relational data storage).
+This API automates client management by providing automated follow-up triggers and structured data storage for client information. 
+It is designed with a clean, layered architecture to ensure maintainability and scalability.
 
-Containerization: Docker (Ensures a consistent, reproducible environment).
 
-Asynchrony: asyncio (Asynchronous programming, optimizing I/O bound tasks).
+## Tech Stack
+**Framework**: *FastAPI* (High performance, easy to use, auto-generated docs).
 
-Language: Python 3.13+
+**ORM**: SQLAlchemy (Robust SQL ORM database management).
 
-Project Architecture
+**Migrations**: Alembic (Automated database schema management).
+
+**Database**: PostgreSQL (Relational data storage).
+
+**Containerization**: Docker (Ensures a consistent, reproducible environment).
+
+**Asynchrony**: asyncio (Asynchronous programming, optimizing I/O bound tasks).
+
+**Language**: Python 3.13+
+
+
+
+### Project Architecture
+
+
 The application follows a layered design pattern to separate concerns and maintain clean code:
 
-Endpoints (FastAPI): Handles HTTP requests, routing, and response formatting.
+**api & v1 (FastAPI)**: Handles HTTP requests, routing, and response formatting.
 
-Services: Processes the core business rules and workflows (e.g., validation logic, inventory/stock updates, processing incoming client messages).
+**Domain & Services**: Processes the core business rules and workflows (e.g., validation logic, inventory, stock updates, processing incoming client messages).
 
-Infrastructure: Manages the core configuration and database connections.
+**Infrastructure**: Manages the core configuration and database connections.
 
-config.py: Contains the core settings, PostgreSQL configuration, and asynchronous database connection setup.
 
-database.py: Houses the SQLAlchemy models and database mapping.
+**Repositories**: The persistence layer. Functions here manage data storage and retrieval, execute data queries, and act as the bridge between the database and the services layer.
 
-Repositories: The persistence layer. Functions here manage data storage and retrieval, execute data queries, and act as the bridge between the database and the services layer.
 
-*How to Run Locally*
+
+#### How to Run Locally
+
+
 This project uses Docker to ensure a seamless setup process.
 
-*1. Build and Run the Container*
-Make sure Docker is running on your machine, then execute:
+**Build and Run the Container**
+Make sure Docker desktop is running on your machine, then execute:
 
-# Build the Docker image
-docker build -t watkit-api .
+**Build the Docker image**
+> docker build -t watkit-api -f dockerfile .
 
-# Run the container on port 8000
-docker run -d -p 8000:8000 --name watkit-app watkit-api
+**Run the container**
 
-*2. Run Database Migrations*
+> docker-compose --build
+
+**Run Database Migrations**
+
 Before adding data, apply the latest database schemas using Alembic:
 
-docker exec -it watkit-app alembic upgrade head
+> docker exec -it watkit-app alembic upgrade head
 
-*3. Seed the Database*
-To populate the database with initial testing data (like product catalogs), run the seed script:
+**Seed the Database**
 
-docker exec -it watkit-app python seed.py
+To *populate* the database with initial testing data (like product catalogs), run the seed script:
+
+> docker exec -it watkit-app python seed.py
+
 
 **API Documentation**
+
 Once the container is running, you can interact with the API directly through the browser:
 
-# Swagger UI: http://localhost:8000/docs (Interactive testing interface)
 
-# ReDoc: http://localhost:8000/redoc (Clean, read-only documentation)
+> Swagger UI: http://localhost:8000/docs (Interactive testing interface)
 
-**Known Issues & Future Modifications**
-This project is under active development. Current focus areas and upcoming improvements include:
 
-Message Service Integration: The external messaging webhook (via Twilio/ngrok) is currently experiencing routing timeouts. The next iteration will migrate testing to the WhatsApp Sandbox to bypass carrier registration locks and ensure reliable local testing.
+> ReDoc: http://localhost:8000/redoc (Clean, read-only documentation)
 
-Enhanced Test Coverage: Add pytest integration to automatically test the Service and Repository layers to ensure rock-solid data validation.
+
+
+**credentials information**
+To see your DB_PASSWORD and all the information related to your database execute this command:
+> docker exec -it watkit-api env
+
+if everything is all right you might see the port connection and all related information.
+
+You can see the example_env.txt file to create .env file.
+
+### Unit testing
+
+The service layer is tested using asynchronous unit test with mocked dependencies.Instead of relying on real database connections or external services, mocks are used to simulate the behavior of repositories and services in isolation.
+
+The test leverage AsyncMock from Python's unittest.mock to properly handle async functions, allowing the business logic to be executed and validated without side effects.
+
+this approach ensures:
+
+- Fast and reliable test execution.
+- Isolation of Business Logic.
+- Full control over dependency behavior
+
+This allows testing complex workflows in a deterministic and reproducible way.
+
+
+
+

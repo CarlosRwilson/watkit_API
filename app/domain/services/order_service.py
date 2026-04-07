@@ -10,7 +10,7 @@ class OrderService:
             order = await self.order_repo.create_order(
                     client_id=client_id
                     )
-            return f"Order #{order.id} done!, which product you want to add? (send the ID)"
+            return f"which product you want to add? (send the ID)"
     async def add_product_to_order(self, order_id: int, product_id: int, quantity: int = 1) -> str: 
             #product exist?
             product = await self.product_repo.get_product_by_id(product_id)

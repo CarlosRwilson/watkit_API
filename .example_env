@@ -1,0 +1,5 @@
+DB_USER=user2093
+DB_PASSWORD=mypassword893
+DB_HOST=the actual host
+DB_PORT=05468
+DB_NAME=thedatabaseNAME

@@ -7,21 +7,21 @@ class ProductRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_product_by_id(self, product_id:int) -> Product | None:
+    async def get_product_by_id(self, product_id:int) -> Product :
             query = select(Product).where(Product.id == product_id)
             result = await self.session.execute(query)
             return result.scalar_one_or_none()
         
-    async def get_available_products(self):
+    async def get_available_products(self) -> Product | bool:
             query = select(Product).where(Product.stock > 0)
             result = await self.session.execute(query)
             products = result.scalars().all()
             if not products:
                   return False
-            return products
+            else:
+                return products
         
     async def decrease_stock(self, product_id: int, quantity: int) -> bool:
-            #find product
             query = select(Product).where(Product.id == product_id)
             result = await self.session.execute(query)
             product = result.scalar_one_or_none()
@@ -37,7 +37,7 @@ class ProductRepository:
     
   
     #use a direct SQL statement to increment the stock in the database
-    async def increase_atomic_stock(self, product_id: int, quantity: int):
+    async def increase_atomic_stock(self, product_id: int, quantity: int) -> None:
           query = (
                 update(Product)
                 .where(Product.id == product_id)

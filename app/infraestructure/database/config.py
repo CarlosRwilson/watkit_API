@@ -31,7 +31,6 @@ async def init_db():
         # Note: With Postgres, ensure the database  already exists
         # Create all tables defined in the SQLAlchemy models
         await conn.run_sync(Base.metadata.create_all)
-
 # Dependency to get a database session (for use in routes/services)
 async def get_db():
     # Open an async session

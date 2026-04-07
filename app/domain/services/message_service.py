@@ -46,12 +46,14 @@ class MessageService:
 
         elif user_text in ['menu']:
             catalog = await self.product_service.show_catalog()
-            
+            return catalog
         elif user_text in ["order"]:
+            catalog = await self.product_service.show_catalog()
             if not active_order:
                 order_msg = await self.order_service.start_new_order(client.id)
             else:
                 order_msg = "you already have an active order.Send the product ID"
+                return order_msg
             # update status
             return f"{catalog}\n\n{order_msg}"
         else:
