@@ -11,11 +11,13 @@ load_dotenv(dotenv_path=env_path)
 
 #Build the PostgreSQL Async URL
 # Format: postgresql+asyncpg://user:password@host:port/dbname
-DATABASE_URL = (
-    f"postgresql+asyncpg://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
-    f"@{os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}/{os.getenv('DB_NAME')}"
-)
-print("DATABASE_URL:", DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL")
+#debug if occurs an error
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL it is not set")
+
+
+# 
 # engine setup
 
 # Create the async engine for database connections
