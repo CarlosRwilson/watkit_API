@@ -2,7 +2,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from sqlalchemy import update
 from app.infraestructure.database.models import Product
-
+#Logic business layer
 class ProductRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
