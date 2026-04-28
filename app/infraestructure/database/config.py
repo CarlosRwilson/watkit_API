@@ -8,7 +8,7 @@ from pathlib import Path
 env_path = Path(__file__).resolve().parent.parent.parent.parent / '.env'
 load_dotenv(dotenv_path=env_path)
 
-#Handling ERROR to DATABASE_URL
+#Handling ERROR to DATABASE_URL1
 #Build the PostgreSQL Async URL
 # Format: postgresql+asyncpg://user:password@host:port/dbname
 DATABASE_URL = os.getenv("DATABASE_URL")
