@@ -3,6 +3,7 @@
 # Watkit API
 
 
+
 This API automates client management by providing automated follow-up triggers and structured data storage for client information. 
 It is designed with a clean, layered architecture to ensure maintainability and scalability.
 
@@ -101,7 +102,4 @@ this approach ensures:
 - Full control over dependency behavior
 
 This allows testing complex workflows in a deterministic and reproducible way.
-
-
-
-
+#End readme
